@@ -1,6 +1,8 @@
 # flask-tornado
 An implementation of a Tornado server for your Flask application
 
+*dependencies: Flask, Tornado*
+
 This module allows the use of Tornado as the Flask server
 
 The flask project is here:
@@ -40,7 +42,14 @@ However, to really do things correctly, you would want to use Apache or
 Nginx front end and set this up as a worker.  So test, test, test before you go
 in to production!!
 
-## usage
+## usage and installation
+
+*keep it simple*
+
+The reason why we love Flask and Tornado is their surface API is simple and approachable.
+
+For now... it is easy to just copy the file "flask_tornado.py" into the same directory
+as your app! Thus adhering to the KISS principle-- or "Keep it Simple Stupid" paradigm.
 
 ### used as a Class
 ```
