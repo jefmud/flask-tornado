@@ -36,7 +36,7 @@ without much mucking around with your deployment
 
 *Disclaimer - this is not necessarily the most secure or thread-safe
 way to do things but Tornado can scale, so you could theoretically use the app in a
-small to medium scale production envornment as a stand-alone app.*
+small to medium scale production environment as a stand-alone app.*
 
 However, to really do things correctly, you would want to use Apache or
 Nginx front end and set this up as a worker.  So test, test, test before you go
