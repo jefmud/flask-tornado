@@ -3,6 +3,10 @@ An implementation of a Tornado server for your Flask application
 
 This module allows the use of Tornado as the Flask server
 
+The flask project is here:
+
+https://github.com/pallets/flask
+
 The tornado project is here:
 
 https://github.com/tornadoweb/tornado
@@ -46,7 +50,7 @@ from flask_tornado import TornadoServer
 import datetime
 
 app = Flask(__name__)
-server = TornadoServer(app)
+server = TornadoServer(app) # instantiate a server object
 
 @app.route('/')
 def index():
@@ -64,14 +68,14 @@ import flask_tornado
 import datetime
 
 app = Flask(__name__)
-server = TornadoServer(app)
 
 @app.route('/')
 def index():
     return "Hello World the local server time is {}".format(datetime.datetime.now())
 
 if __name__ == '__main__':
-    flask_tornado.run(port=12345)
+    # it is required to reference the app (default port is 5000)
+    flask_tornado.run(app)
 ```
 
 ### used with an SSL context
@@ -91,3 +95,11 @@ def index():
 if __name__ == '__main__':
     server.run(port=8443, ssl_cert='path_to_your_ssl_cert_file', ssl_key='path_to_your_ssl_key')
 ```
+
+## API DOCUMENTATION
+
+todo
+
+## SSL context which has a port 80 redirect to 443
+
+todo
