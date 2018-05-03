@@ -30,36 +30,62 @@ However, to really do things correctly, you would want to use Apache or
 Nginx front end and set this up as a worker.  So test, test, test before you go
 in to production!!
 """
+from __future__ import print_function
+import errno, os
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 
 class TornadoServer():
-    def __init__(self, app, port=5000, host='127.0.0.1'):
-        self.http_server = HTTPServer(WSGIContainer(app))
+    def __init__(self, app, port=5000, certfile=None, keyfile=None):
+        #self.http_server = HTTPServer(WSGIContainer(app))
+        self.app = app
         self.port = port
-        self.host = host
+        self.set_certificate(certfile, keyfile)
+
+    def set_certificate(self, certfile=None, keyfile=None):
+        """set the certificate, die if specified file doesn't exist"""
+        
+        self.certfile = certfile
+        self.keyfile = keyfile
+
+        if certfile:
+            if not os.path.isfile(certfile):
+                print("ERROR: Certificate NOT FOUND!")
+                raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), certfile)
+
+        if keyfile:
+            if not os.path.isfile(keyfile):
+                print("ERROR: Keyfile NOT FOUND!")
+                raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), keyfile)
+
     
-    def run(self, port=None, host=None):
+    def run(self, port=None, host=None, certfile=None, keyfile=None):
         """run the server as class method, can override the port and host"""
         server_port = self.port
         # user override of the port
         if isinstance(port, int):
             server_port = port
-        self.http_server.listen(server_port)
+
+        self.set_certificate(certfile, keyfile)
+
+        if self.certfile and self.keyfile:
+            # add an SSL certificate if you want to use HTTPS
+            ssl_options = {"certfile": self.certfile, "keyfile": self.keyfile}
+            http_server = HTTPServer(WSGIContainer(self.app, ssl_options=ssl_options))
+        else:
+            http_server = HTTPServer(WSGIContainer(self.app))
+        
+        http_server.listen(server_port)
+        print("Tornado server started on port %s" % server_port)
         IOLoop.instance().start()
 
-def run(app, port=5000, host='127.0.0.1', certfile=None, keyfile=None):
+def run(app, port=5000, certfile=None, keyfile=None):
     """run the server, functional calling style
     app - the WSGI app, required
     port - the server port
+    certfile - an SSL certificate file
+    keyfile - an SSL keyfile
     """
-    if certfile and keyfile:
-        # add an SSL certificate if you want to use HTTPS
-        ssl_options = {"certfile": certfile, "keyfile": keyfile}
-        http_server = HTTPServer(WSGIContainer(app, ssl_options=ssl_options))
-    else:
-        http_server = HTTPServer(WSGIContainer(app))
-
-    http_server.listen(port)
-    IOLoop.instance().start()
+    server = TornadoServer(app, port=port, certfile=certfile, keyfile=keyfile)
+    server.run()
