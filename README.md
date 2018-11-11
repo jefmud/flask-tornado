@@ -30,7 +30,8 @@ other is forced to wait... and wait... and wait.
 
 Enter Tornado.
 
-Tornado is another web framework, worthy of study.  It includes a WSGI server that
+Tornado is another web framework, worthy of study.  We're not going to ditch Flask, we
+are interested in using Tornado's server with a Flask app. Tornado's included WSGI server
 can be used quite well with Flask.  Tornado's server as a very fast and can function well
 as a stand-alone server or, better yet, as a proxy worker behind Apache or Nginx.
 
