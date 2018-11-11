@@ -17,18 +17,21 @@ http://www.tornadoweb.org/en/stable/
 
 ## explanation:
 
-As you will discover during experimenting with flask, the app.run()
-in flask development server is a "blocking" server -- this was an
-intentional choice to allow better debugging.  And was never, ever, intended
-to be used in production.  It was included as a "convenience" to
-get users developing quickly without lots of extra resources.
+As you will discover experimenting with flask, the app.run()
+flask development server is a "blocking server" -- this was an
+intentional choice to allow better debugging.  Hence, it was never, ever, intended
+to be used in production.  It was included as a convenience to
+get users developing/testing quickly without lots of extra resources.
 
 If you need evidence, you can test this behavior by running an app on your development
 environment, and then trying to access it on several different browsers
 simultaneously.  One browser "wins" and grabs the connection while the
 other is forced to wait... and wait... and wait.
 
-Tornado can be used as a very fast alternate server that will function well in
+Enter Tornado.
+
+Tornado is another web framework, worthy of study.  It includes a WSGI server that
+can be used quite well with Flask.  Tornado's server as a very fast and can function well
 as a stand-alone server or, better yet, as a proxy worker behind Apache or Nginx.
 
 If you are looking for alternatives, you could also employ Gunicorn.
