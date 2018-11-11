@@ -117,4 +117,18 @@ todo
 
 ## SSL context which has a port 80 redirect to 443
 
-todo
+This can be accomplished in the Flask app.  There are several ways to include this.  I would suggest setting
+a constant like REDIRECT_SSL = True and then in the @before_request, handling the redirect.  It isn't quite as
+elegant, but for the first call, it is efficient enough.
+
+```
+... lots of other includes ...
+
+from flask import request
+REDIRECT_SSL = True
+
+@before_request
+def before_request():
+    if REDIRECT_SSL and 'http:' in request:
+        return redirect(ssl_url)
+```
