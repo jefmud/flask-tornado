@@ -117,18 +117,29 @@ todo
 
 ## SSL context which has a port 80 redirect to 443
 
-This can be accomplished in the Flask app.  There are several ways to include this.  I would suggest setting
-a constant like REDIRECT_SSL = True and then in the @before_request, handling the redirect.  It isn't quite as
-elegant, but for the first call, it is efficient enough.
+At some point Armin Ronacher (creator of Flask) or Ben Darnell (creator of Tornado) will write a simple way to redirect HTTP to HTTPS equivalents.  Sure, you can do this with Apache or NGINX servers too, but since this article is about simple deployment, I offer several simple strategies that can be employed to accomplish this scenario:
 
+1) create a no_redirect_app, that presents a message, in my example, "These are not the droids you are looking for", and gives a link to the root URL on the 443 app.
+
+reference Flask docs http://flask.pocoo.org/docs/1.0/patterns/errorpages/
+
+```python
+from flask import Flask
+from flask_tornado import TornadoServer
+app = Flask(__name__)
+server = TornadoServer(app)
+
+@app.errorhandler(404)
+def page_not_found(e):
+"""returns a explicit redirect to your site"""
+    return 'These are not the droids you are looking for... <a href="https://yoursite.com">try checking here</a>'
+
+if __name__ == '__main__':
+    server.run(port=80)
 ```
-... lots of other includes ...
 
-from flask import request
-REDIRECT_SSL = True
+2) A slightly fancier approach, create a redirect_app that listens to requests on port 80 and then 301 redirects to the actual app listening on port 443.  If you've read this far in the docs, I assume you know what you are doing here.
 
-@before_request
-def before_request():
-    if REDIRECT_SSL and 'http:' in request:
-        return redirect(ssl_url)
-```
+2) run a second instance of the app on port 80, and then in the "@before_request" look at the request URI and redirect to 443.  Again, if you've read this far in the docs, you are familiar with Flask's "@before_request" directive and the "request context"
+
+reference Flask documentation: http://flask.pocoo.org/docs/1.0/reqcontext/?highlight=before_request
