@@ -72,7 +72,7 @@ class TornadoServer():
         if self.certfile and self.keyfile:
             # add an SSL certificate if you want to use HTTPS
             ssl_options = {"certfile": self.certfile, "keyfile": self.keyfile}
-            http_server = HTTPServer(WSGIContainer(self.app, ssl_options=ssl_options))
+            http_server = HTTPServer(WSGIContainer(self.app) ssl_options=ssl_options)
         else:
             http_server = HTTPServer(WSGIContainer(self.app))
         
