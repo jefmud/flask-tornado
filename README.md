@@ -18,7 +18,7 @@ http://www.tornadoweb.org/en/stable/
 ## explanation:
 
 As you will discover experimenting with flask, the app.run()
-flask development server is a "blocking server" -- this was an
+flask development server is a single-threaded "blocking server" -- this was an
 intentional choice to allow better debugging.  Hence, it was never, ever, intended
 to be used in production.  It was included as a convenience to
 get users developing/testing quickly without lots of extra resources.
@@ -27,6 +27,8 @@ If you need evidence, you can test this behavior by running an app on your devel
 environment, and then trying to access it on several different browsers
 simultaneously.  One browser "wins" and grabs the connection while the
 other is forced to wait... and wait... and wait.
+
+**Important Note: as of Flask release of 1.x version, the development server is multi-threaded so the previous discussion is no longer valid.  Tornado still is a better choice because it is fast, fast, fast!**
 
 Enter Tornado.
 
