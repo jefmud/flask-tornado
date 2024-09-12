@@ -1,5 +1,7 @@
 # flask-tornado
-An implementation of a Tornado server for your Flask (or Bottle) application.  I wrote this stub a long time ago when I was fairly new to Tornado and Flask, but the module also easily applies to the Marcel HellKamp's excellent Bottle Framework.  About Tornado, Flask, and Bottle I pay homage-- “An engineer has achieved perfection not when there is nothing left to add, but nothing left to take away” ~ Antoine de Saint-Exupery
+An implementation of a Tornado server for your Flask (or Bottle) application.  I wrote this stub a long time ago when I was fairly new to Tornado and Flask, but the module also easily applies to the Marcel HellKamp's excellent Bottle Framework.
+
+About Tornado, Flask, and Bottle I pay homage-- *“An engineer has achieved perfection not when there is nothing left to add, but nothing left to take away” ~ Antoine de Saint-Exupery*
 
 *dependencies: Tornado*
 
