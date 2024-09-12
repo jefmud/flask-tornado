@@ -148,11 +148,7 @@ if __name__ == '__main__':
 
 2) A slightly fancier approach, create a redirect_app that listens to requests on port 80 and then 301 redirects to the actual app listening on port 443.  If you've read this far in the docs, I assume you know what you are doing here.
 
-http://flask.pocoo.org/docs/1.0/api/?highlight=redirect#flask.redirect
-
 3) run a second instance of the app on port 80... but rewrite the LOGIN method to drive them to the 443 url.  This way users can consume unencrypted (public) data as they require but when they login or use a form that requires encryption, we redirect.  This unfortunately adds complexity to your project, but achieves the desired effect of SSL.
-
-reference Flask documentation: http://flask.pocoo.org/docs/1.0/reqcontext/?highlight=before_request
 
 4) The simplest approach is to write an app which drives all requests to the SSL port.
 
